@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/core/">
+    <Project Path="core/TicketToRide.Core.csproj" />
+  </Folder>
+  <Folder Name="/server/">
+    <Project Path="server/TicketToRide.Server.csproj" />
+  </Folder>
+</Solution>
