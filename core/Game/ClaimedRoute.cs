@@ -1,4 +1,4 @@
-using core.Enum;
+using core.Enums;
 
 namespace core.Game;
 

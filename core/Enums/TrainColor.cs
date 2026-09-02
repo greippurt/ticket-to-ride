@@ -1,4 +1,4 @@
-namespace core.Enum;
+namespace core.Enums;
 
 public enum TrainColor
 {
