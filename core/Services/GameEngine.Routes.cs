@@ -21,28 +21,8 @@ public static partial class GameEngine
             throw new InvalidOperationException("Route is already claimed");
         }
 
-        if (route.Color != color && route.Color != TrainColor.Grey)
-        {
-            throw new InvalidOperationException("Route color does not match the chosen color");
-        }
-
-        if (color == TrainColor.Grey || !player.TrainCards.ContainsKey(color))
-        {
-            throw new InvalidOperationException("Invalid train card color chosen");
-        }
-
-        if (player.TrainCards[color] < route.Length)
-        {
-            throw new InvalidOperationException(
-                "Not enough train cards of the chosen color to claim the route"
-            );
-        }
-
-        player.TrainCards[color] -= route.Length;
-
+        // Deduct trains from the player
         player.TrainsRemaining -= route.Length;
-
-        state.TrainDiscardPile[color] += route.Length;
 
         // Add the claimed route to the game state
         state.ClaimedRoutes[route.Id] = new ClaimedRoute

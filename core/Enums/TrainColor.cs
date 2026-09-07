@@ -10,7 +10,5 @@ public enum TrainColor
     White,
     Orange,
     Purple,
-    Locomotive,
-
-    Grey,
+    Locomotive
 }

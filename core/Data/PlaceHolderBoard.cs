@@ -13,7 +13,7 @@ public static class PlaceholderBoard
         new City("phoenix", "Phoenix"),
         new City("denver", "Denver"),
         new City("seattle", "Seattle"),
-        new City("miami", "Miami"),
+        new City("miami", "Miami")
     };
 
     public static readonly List<Route> Routes = new List<Route>
@@ -26,23 +26,8 @@ public static class PlaceholderBoard
         new Route("chicago-denver", "chicago", "denver", 3, Enums.TrainColor.White),
         new Route("denver-seattle", "denver", "seattle", 5, Enums.TrainColor.Purple),
         new Route("seattle-losAngeles", "seattle", "losAngeles", 4, Enums.TrainColor.Orange),
-        new Route("denver-phoenix", "denver", "phoenix", 3, Enums.TrainColor.Grey),
+        new Route("denver-phoenix", "denver", "phoenix", 3, Enums.TrainColor.Locomotive),
         new Route("newYork-miami", "newYork", "miami", 5, Enums.TrainColor.Red),
-        new Route("miami-houston", "miami", "houston", 4, Enums.TrainColor.Blue),
-    };
-
-    public static readonly List<DestinationTicket> DestinationTickets = new List<DestinationTicket>
-    {
-        new DestinationTicket("newYork-losAngeles", "New York", "Los Angeles", 21),
-        new DestinationTicket("newYork-chicago", "New York", "Chicago", 12),
-        new DestinationTicket("losAngeles-houston", "Los Angeles", "Houston", 16),
-        new DestinationTicket("chicago-phoenix", "Chicago", "Phoenix", 11),
-        new DestinationTicket("houston-phoenix", "Houston", "Phoenix", 7),
-        new DestinationTicket("chicago-denver", "Chicago", "Denver", 8),
-        new DestinationTicket("denver-seattle", "Denver", "Seattle", 13),
-        new DestinationTicket("seattle-losAngeles", "Seattle", "Los Angeles", 14),
-        new DestinationTicket("denver-phoenix", "Denver", "Phoenix", 9),
-        new DestinationTicket("newYork-miami", "New York", "Miami", 15),
-        new DestinationTicket("miami-houston", "Miami", "Houston", 10),
+        new Route("miami-houston", "miami", "houston", 4, Enums.TrainColor.Blue)
     };
 }

@@ -78,22 +78,10 @@ public static partial class GameEngine
             throw new ArgumentException($"Color {color} is not currently face-up", nameof(color));
         }
 
-        var drawnCards = color switch
-        {
-            TrainColor.Locomotive => 2,
-            _ => 1,
-        };
-
-        if (state.TrainCardDrawsThisTurn + drawnCards > 2)
-        {
-            throw new InvalidOperationException(
-                "Cannot draw more than 2 train cards in a turn (locomotive counts as 2)"
-            );
-        }
-
         state.CurrentPlayer.TrainCards[color]++;
-        state.TrainCardDrawsThisTurn = state.TrainCardDrawsThisTurn + drawnCards;
+        state.TrainCardDrawsThisTurn++;
         AddFaceUpTrainCard(state, rng);
+
         return color;
     }
 }
