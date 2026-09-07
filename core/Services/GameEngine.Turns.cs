@@ -7,15 +7,15 @@ public static partial class GameEngine
     // AdvanceTurn, EndTurnIfComplete m.fl. kommer her
     public static void AdvanceTurn(GameState state)
     {
-        state.CurrentPlayerIndex = (state.CurrentPlayerIndex + 1) % state.Players.Count;
-        state.TrainCardDrawsThisTurn = 0;
-        state.HasClaimedRouteThisTurn = false;
-        state.HasDrawnTicketsThisTurn = false;
-
         if (state.IsLastRound && state.LastRoundPlayerIndex == null)
         {
             state.LastRoundPlayerIndex = state.CurrentPlayerIndex;
         }
+
+        state.CurrentPlayerIndex = (state.CurrentPlayerIndex + 1) % state.Players.Count;
+        state.TrainCardDrawsThisTurn = 0;
+        state.HasClaimedRouteThisTurn = false;
+        state.HasDrawnTicketsThisTurn = false;
     }
 
     public static void EndTurnIfComplete(GameState state)
