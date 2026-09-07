@@ -46,4 +46,10 @@ public class GameState
     public Player CurrentPlayer => Players[CurrentPlayerIndex];
 
     public bool IsRouteClaimed(string routeId) => ClaimedRoutes.ContainsKey(routeId);
+
+    public bool IsLastRound => Players.Any(p => p.TrainsRemaining <= 2);
+
+    public int? LastRoundPlayerIndex { get; set; } = null;
+
+    public bool IsGameOver { get; set; } = false;
 }
