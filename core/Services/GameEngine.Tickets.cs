@@ -26,13 +26,32 @@ public static partial class GameEngine
         return drawnTickets;
     }
 
-    public static void ChooseDestinationTicketsForPlayer(
+    public static void ChooseDestinationTicketsForCurrentPlayer(
         GameState state,
         List<DestinationTicket> tickets
     )
     {
+        if (tickets.Count < 1 || tickets.Count > 3)
+        {
+            throw new InvalidOperationException("Must choose between 1 and 3 destination tickets");
+        }
+
         var player = state.CurrentPlayer;
         player.DestinationTickets.AddRange(tickets);
         state.HasDrawnTicketsThisTurn = true;
+    }
+
+    public static void ChooseDestinationTicketsForPlayer(
+        GameState state,
+        Player player,
+        List<DestinationTicket> tickets
+    )
+    {
+        if (tickets.Count < 2 || tickets.Count > 3)
+        {
+            throw new InvalidOperationException("Must choose between 2 and 3 destination tickets");
+        }
+
+        player.DestinationTickets.AddRange(tickets);
     }
 }

@@ -11,13 +11,28 @@ public static partial class GameEngine
         state.TrainCardDrawsThisTurn = 0;
         state.HasClaimedRouteThisTurn = false;
         state.HasDrawnTicketsThisTurn = false;
+
+        if (state.IsLastRound && state.LastRoundPlayerIndex == null)
+        {
+            state.LastRoundPlayerIndex = state.CurrentPlayerIndex;
+        }
     }
 
     public static void EndTurnIfComplete(GameState state)
     {
-        if (state.IsRoundComplete)
+        if (!state.IsRoundComplete)
+            return;
+
+        if (
+            state.IsLastRound
+            && state.CurrentPlayerIndex
+                == (state.LastRoundPlayerIndex - 1 + state.Players.Count) % state.Players.Count
+        )
         {
-            AdvanceTurn(state);
+            state.IsGameOver = true;
+            return;
         }
+
+        AdvanceTurn(state);
     }
 }
