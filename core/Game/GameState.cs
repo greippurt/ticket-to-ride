@@ -8,6 +8,11 @@ public class GameState
     public required string Id { get; init; }
     public List<Player> Players { get; } = new();
     public int CurrentPlayerIndex { get; set; }
+    public int TrainCardDrawsThisTurn { get; set; } = 0;
+    public bool HasClaimedRouteThisTurn { get; set; } = false;
+    public bool HasDrawnTicketsThisTurn { get; set; } = false;
+    public bool IsRoundComplete =>
+        TrainCardDrawsThisTurn >= 2 || HasClaimedRouteThisTurn || HasDrawnTicketsThisTurn;
     public Dictionary<string, ClaimedRoute> ClaimedRoutes { get; } = new();
     public Dictionary<TrainColor, int> TrainDrawPile { get; } =
         new()
