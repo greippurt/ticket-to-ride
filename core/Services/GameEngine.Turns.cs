@@ -1,4 +1,6 @@
+using core.Data;
 using core.Game;
+using core.Models;
 
 namespace core.Services;
 
@@ -18,8 +20,11 @@ public static partial class GameEngine
         state.HasDrawnTicketsThisTurn = false;
     }
 
-    public static void EndTurnIfComplete(GameState state)
+    public static void EndTurnIfComplete(GameState state, List<Route> allRoutes)
     {
+        if (state.IsGameOver)
+            return;
+
         if (!state.IsRoundComplete)
             return;
 
@@ -30,6 +35,7 @@ public static partial class GameEngine
         )
         {
             state.IsGameOver = true;
+            ScoreGame(state, allRoutes);
             return;
         }
 

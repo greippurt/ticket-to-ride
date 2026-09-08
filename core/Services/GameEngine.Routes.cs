@@ -51,6 +51,9 @@ public static partial class GameEngine
             PlayerId = player.Id,
         };
 
+        var points = GetRoutePoints(route);
+        player.Score += points;
+
         state.HasClaimedRouteThisTurn = true;
     }
 }
