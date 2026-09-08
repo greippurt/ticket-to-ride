@@ -2,6 +2,9 @@
   <Folder Name="/core/">
     <Project Path="core/TicketToRide.Core.csproj" />
   </Folder>
+  <Folder Name="/core.Tests/">
+    <Project Path="core.Tests/TicketToRide.Core.Tests.csproj" />
+  </Folder>
   <Folder Name="/server/">
     <Project Path="server/TicketToRide.Server.csproj" />
   </Folder>
