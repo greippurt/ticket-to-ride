@@ -33,16 +33,16 @@ public static class PlaceholderBoard
 
     public static readonly List<DestinationTicket> DestinationTickets = new List<DestinationTicket>
     {
-        new DestinationTicket("newYork-losAngeles", "New York", "Los Angeles", 21),
-        new DestinationTicket("newYork-chicago", "New York", "Chicago", 12),
-        new DestinationTicket("losAngeles-houston", "Los Angeles", "Houston", 16),
-        new DestinationTicket("chicago-phoenix", "Chicago", "Phoenix", 11),
-        new DestinationTicket("houston-phoenix", "Houston", "Phoenix", 7),
-        new DestinationTicket("chicago-denver", "Chicago", "Denver", 8),
-        new DestinationTicket("denver-seattle", "Denver", "Seattle", 13),
-        new DestinationTicket("seattle-losAngeles", "Seattle", "Los Angeles", 14),
-        new DestinationTicket("denver-phoenix", "Denver", "Phoenix", 9),
-        new DestinationTicket("newYork-miami", "New York", "Miami", 15),
-        new DestinationTicket("miami-houston", "Miami", "Houston", 10),
+        new DestinationTicket("newYork-losAngeles", "newYork", "losAngeles", 21),
+        new DestinationTicket("newYork-chicago", "newYork", "chicago", 12),
+        new DestinationTicket("losAngeles-houston", "losAngeles", "houston", 16),
+        new DestinationTicket("chicago-phoenix", "chicago", "phoenix", 11),
+        new DestinationTicket("houston-phoenix", "houston", "phoenix", 7),
+        new DestinationTicket("chicago-denver", "chicago", "denver", 8),
+        new DestinationTicket("denver-seattle", "denver", "seattle", 13),
+        new DestinationTicket("seattle-losAngeles", "seattle", "losAngeles", 14),
+        new DestinationTicket("denver-phoenix", "denver", "phoenix", 9),
+        new DestinationTicket("newYork-miami", "newYork", "miami", 15),
+        new DestinationTicket("miami-houston", "miami", "houston", 10),
     };
 }
