@@ -46,6 +46,17 @@ public class GameHub : Hub
         return GameStateMapper.ToDto(state, playerId);
     }
 
+    // For the shared board screen: receives updates but sees no hands and cannot act
+    public async Task<GameStateDto> WatchGame(string gameId)
+    {
+        var state = GetStateOrThrow(gameId);
+
+        _registry.Add(Context.ConnectionId, gameId, null);
+        await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+
+        return GameStateMapper.ToDto(state, null);
+    }
+
     public async Task DrawTrainCardFromDeck()
     {
         var (state, gameId, _) = GetCallerContext();

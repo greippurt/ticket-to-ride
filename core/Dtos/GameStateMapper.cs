@@ -6,9 +6,10 @@ namespace core.Dtos;
 
 public static class GameStateMapper
 {
-    public static GameStateDto ToDto(GameState state, string viewerPlayerId)
+    // A null viewer is the shared board view: it sees nobody's hand
+    public static GameStateDto ToDto(GameState state, string? viewerPlayerId)
     {
-        if (state.Players.All(p => p.Id != viewerPlayerId))
+        if (viewerPlayerId != null && state.Players.All(p => p.Id != viewerPlayerId))
         {
             throw new ArgumentException(
                 $"Player '{viewerPlayerId}' is not part of game '{state.Id}'.",

@@ -10,6 +10,26 @@ export type TrainColor =
   | 'locomotive'
   | 'grey'
 
+export interface City {
+  id: string
+  name: string
+  x: number
+  y: number
+}
+
+export interface Route {
+  id: string
+  fromCityId: string
+  toCityId: string
+  length: number
+  color: TrainColor
+}
+
+export interface Board {
+  cities: City[]
+  routes: Route[]
+}
+
 export interface PlayerSummaryDto {
   id: string
   name: string

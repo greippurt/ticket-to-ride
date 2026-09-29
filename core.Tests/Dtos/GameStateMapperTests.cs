@@ -93,6 +93,19 @@ public class GameStateMapperTests
     }
 
     [Fact]
+    public void ToDto_BoardViewSeesNobodysHand()
+    {
+        var (viewer, opponent, state) = TwoPlayerGame();
+        TestFactory.GiveTrainCards(viewer, TrainColor.Red, 3);
+        opponent.DestinationTickets.Add(TicketA);
+
+        var dto = GameStateMapper.ToDto(state, null);
+
+        Assert.All(dto.Players, p => Assert.Null(p.TrainCards));
+        Assert.All(dto.Players, p => Assert.Null(p.DestinationTickets));
+    }
+
+    [Fact]
     public void ToDto_ThrowsWhenViewerIsNotInGame()
     {
         var (_, _, state) = TwoPlayerGame();

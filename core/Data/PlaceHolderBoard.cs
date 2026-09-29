@@ -6,14 +6,14 @@ public static class PlaceholderBoard
 {
     public static readonly List<City> Cities = new List<City>
     {
-        new City("newYork", "New York"),
-        new City("losAngeles", "Los Angeles"),
-        new City("chicago", "Chicago"),
-        new City("houston", "Houston"),
-        new City("phoenix", "Phoenix"),
-        new City("denver", "Denver"),
-        new City("seattle", "Seattle"),
-        new City("miami", "Miami"),
+        new City("newYork", "New York", 880, 140),
+        new City("losAngeles", "Los Angeles", 110, 420),
+        new City("chicago", "Chicago", 650, 180),
+        new City("houston", "Houston", 560, 500),
+        new City("phoenix", "Phoenix", 330, 420),
+        new City("denver", "Denver", 400, 250),
+        new City("seattle", "Seattle", 90, 60),
+        new City("miami", "Miami", 870, 540),
     };
 
     public static readonly List<Route> Routes = new List<Route>

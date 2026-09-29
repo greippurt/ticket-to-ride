@@ -5,10 +5,11 @@ namespace server.Hubs;
 
 public class GameConnectionRegistry
 {
-    private readonly ConcurrentDictionary<string, (string GameId, string PlayerId)> _connections = new();
+    // PlayerId is null for connections watching the shared board
+    private readonly ConcurrentDictionary<string, (string GameId, string? PlayerId)> _connections = new();
     private readonly ConcurrentDictionary<string, List<DestinationTicket>> _pendingTicketDraws = new();
 
-    public void Add(string connectionId, string gameId, string playerId) =>
+    public void Add(string connectionId, string gameId, string? playerId) =>
         _connections[connectionId] = (gameId, playerId);
 
     public void Remove(string connectionId)
@@ -17,10 +18,10 @@ public class GameConnectionRegistry
         _pendingTicketDraws.TryRemove(connectionId, out _);
     }
 
-    public bool TryGetPlayer(string connectionId, out (string GameId, string PlayerId) player) =>
+    public bool TryGetPlayer(string connectionId, out (string GameId, string? PlayerId) player) =>
         _connections.TryGetValue(connectionId, out player);
 
-    public IEnumerable<(string ConnectionId, string PlayerId)> GetConnectionsForGame(string gameId) =>
+    public IEnumerable<(string ConnectionId, string? PlayerId)> GetConnectionsForGame(string gameId) =>
         _connections
             .Where(kv => kv.Value.GameId == gameId)
             .Select(kv => (kv.Key, kv.Value.PlayerId));

@@ -3,7 +3,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -27,7 +26,7 @@ interface GameConnectionContextValue {
   playerId: string | null
   createGame: (playerNames: string[]) => Promise<CreateGameResultDto>
   joinGame: (gameId: string, playerId: string) => Promise<GameStateDto>
-  switchPlayer: (playerId: string) => Promise<GameStateDto>
+  watchGame: (gameId: string) => Promise<GameStateDto>
   drawTrainCardFromDeck: () => Promise<void>
   drawFaceUpTrainCard: (color: TrainColor) => Promise<void>
   claimRoute: (routeId: string, color: TrainColor, locomotives?: number) => Promise<void>
@@ -46,7 +45,6 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<ConnectionStatus>('disconnected')
   const [gameState, setGameState] = useState<GameStateDto | null>(null)
   const [playerId, setPlayerId] = useState<string | null>(null)
-  const gameIdRef = useRef<string | null>(null)
 
   const ensureConnection = useCallback(async () => {
     let connection = connectionRef.current
@@ -70,12 +68,6 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
     return connection
   }, [])
 
-  useEffect(() => {
-    return () => {
-      connectionRef.current?.stop()
-    }
-  }, [])
-
   const invoke = useCallback(
     async <T,>(method: string, ...args: unknown[]) => {
       const connection = await ensureConnection()
@@ -97,7 +89,6 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
   const joinGame = useCallback(
     async (gameId: string, joiningPlayerId: string) => {
       const dto = await invoke<GameStateDto>('JoinGame', gameId, joiningPlayerId)
-      gameIdRef.current = gameId
       setGameState(dto)
       setPlayerId(joiningPlayerId)
       return dto
@@ -105,14 +96,13 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
     [invoke],
   )
 
-  const switchPlayer = useCallback(
-    async (nextPlayerId: string) => {
-      if (!gameIdRef.current) {
-        throw new Error('Cannot switch player before joining a game')
-      }
-      return joinGame(gameIdRef.current, nextPlayerId)
+  const watchGame = useCallback(
+    async (gameId: string) => {
+      const dto = await invoke<GameStateDto>('WatchGame', gameId)
+      setGameState(dto)
+      return dto
     },
-    [joinGame],
+    [invoke],
   )
 
   const drawTrainCardFromDeck = useCallback(
@@ -144,7 +134,7 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
       playerId,
       createGame,
       joinGame,
-      switchPlayer,
+      watchGame,
       drawTrainCardFromDeck,
       drawFaceUpTrainCard,
       claimRoute,
@@ -157,7 +147,7 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
       playerId,
       createGame,
       joinGame,
-      switchPlayer,
+      watchGame,
       drawTrainCardFromDeck,
       drawFaceUpTrainCard,
       claimRoute,

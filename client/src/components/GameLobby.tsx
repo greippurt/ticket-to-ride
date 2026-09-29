@@ -1,50 +1,33 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { useGameConnection } from '@/hooks/useGameConnection'
 import type { CreateGameResultDto } from '@/types/game'
 
-export function GameLobby({
-  result,
-  onJoined,
-}: {
-  result: CreateGameResultDto
-  onJoined: () => void
-}) {
-  const { joinGame } = useGameConnection()
-  const [joiningId, setJoiningId] = useState<string | null>(null)
+function LinkRow({ label, href }: { label: string; href: string }) {
+  return (
+    <div className="flex flex-col">
+      <a href={href} target="_blank" rel="noreferrer" className="font-medium underline">
+        {label}
+      </a>
+      <span className="text-muted-foreground break-all text-xs">{href}</span>
+    </div>
+  )
+}
 
-  const handleJoin = async (playerId: string) => {
-    setJoiningId(playerId)
-    try {
-      await joinGame(result.gameId, playerId)
-      onJoined()
-    } finally {
-      setJoiningId(null)
-    }
-  }
+// Each player opens their own link on their own device; the board link goes on a shared screen
+export function GameLobby({ result }: { result: CreateGameResultDto }) {
+  const base = `${window.location.origin}/?game=${result.gameId}`
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Who are you?</CardTitle>
+        <CardTitle>Share the links</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground mb-3 text-sm">Game {result.gameId}</p>
-        <Separator className="mb-3" />
-        <div className="flex flex-col gap-2">
-          {result.players.map((player) => (
-            <Button
-              key={player.id}
-              variant="outline"
-              disabled={joiningId !== null}
-              onClick={() => handleJoin(player.id)}
-            >
-              {joiningId === player.id ? 'Joining…' : `Join as ${player.name}`}
-            </Button>
-          ))}
-        </div>
+      <CardContent className="flex flex-col gap-3 text-sm">
+        <LinkRow label="Board (shared screen)" href={`${base}&board`} />
+        <Separator />
+        {result.players.map((player) => (
+          <LinkRow key={player.id} label={player.name} href={`${base}&player=${player.id}`} />
+        ))}
       </CardContent>
     </Card>
   )
