@@ -108,7 +108,7 @@ public class GameEngineTurnsTests
     }
 
     [Fact]
-    public void EndTurnIfComplete_EndsGameAfterEveryoneElseHadOneMoreTurn()
+    public void EndTurnIfComplete_EndsGameAfterTriggeringPlayersFinalTurn()
     {
         var (a, b, c, d, state) = FourPlayerGame();
 
@@ -127,12 +127,16 @@ public class GameEngineTurnsTests
         GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // -> C's turn
         Assert.False(state.IsGameOver);
 
-        // C is the player right before D (the trigger) - game ends after C's turn.
+        state.HasClaimedRouteThisTurn = true;
+        GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // -> D's turn
+        Assert.False(state.IsGameOver);
+
+        // D (the trigger) also gets one final turn - game ends after it.
         state.HasClaimedRouteThisTurn = true;
         GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes);
 
         Assert.True(state.IsGameOver);
-        Assert.Equal(2, state.CurrentPlayerIndex); // stayed on C, never advanced to D again
+        Assert.Equal(3, state.CurrentPlayerIndex);
     }
 
     [Fact]
@@ -151,7 +155,9 @@ public class GameEngineTurnsTests
         state.HasClaimedRouteThisTurn = true;
         GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // B's turn -> C's turn
         state.HasClaimedRouteThisTurn = true;
-        GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // C's turn -> game ends here
+        GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // C's turn -> D's turn
+        state.HasClaimedRouteThisTurn = true;
+        GameEngine.EndTurnIfComplete(state, TestBoard.AllRoutes); // D's final turn -> game ends here
 
         Assert.True(state.IsGameOver);
         // C's ticket is fulfilled via the claimed AB route, plus the longest-path bonus

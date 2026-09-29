@@ -10,6 +10,11 @@ public static partial class GameEngine
     {
         var count = 3;
 
+        if (state.TrainCardDrawsThisTurn > 0)
+        {
+            throw new InvalidOperationException("Cannot draw destination tickets after drawing train cards");
+        }
+
         if (state.TicketDrawPile.Count < count)
         {
             throw new InvalidOperationException("Not enough destination tickets in the draw pile");
@@ -23,11 +28,15 @@ public static partial class GameEngine
             drawnTickets.Add(ticket);
             state.TicketDrawPile.RemoveAt(index);
         }
+
+        // Set now, not when choosing, so no other action can happen while the player chooses
+        state.HasDrawnTicketsThisTurn = true;
         return drawnTickets;
     }
 
     public static void ChooseDestinationTicketsForCurrentPlayer(
         GameState state,
+        List<DestinationTicket> drawnTickets,
         List<DestinationTicket> tickets
     )
     {
@@ -38,6 +47,10 @@ public static partial class GameEngine
 
         var player = state.CurrentPlayer;
         player.DestinationTickets.AddRange(tickets);
+
+        // Tickets the player did not keep go back into the draw pile
+        state.TicketDrawPile.AddRange(drawnTickets.Except(tickets));
+
         state.HasDrawnTicketsThisTurn = true;
     }
 

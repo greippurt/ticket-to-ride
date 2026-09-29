@@ -77,7 +77,7 @@ public class GameHub : Hub
         await BroadcastState(gameId, state);
     }
 
-    public async Task ClaimRoute(string routeId, TrainColor color)
+    public async Task ClaimRoute(string routeId, TrainColor color, int locomotives)
     {
         var (state, gameId, _) = GetCallerContext();
         var route =
@@ -86,7 +86,7 @@ public class GameHub : Hub
 
         RunEngineAction(() =>
         {
-            GameEngine.ClaimRoute(state, route, color);
+            GameEngine.ClaimRoute(state, route, color, locomotives);
             GameEngine.EndTurnIfComplete(state, PlaceholderBoard.Routes);
         });
 
@@ -133,7 +133,7 @@ public class GameHub : Hub
         {
             RunEngineAction(() =>
             {
-                GameEngine.ChooseDestinationTicketsForCurrentPlayer(state, chosen);
+                GameEngine.ChooseDestinationTicketsForCurrentPlayer(state, drawnTickets, chosen);
                 GameEngine.EndTurnIfComplete(state, PlaceholderBoard.Routes);
             });
         }

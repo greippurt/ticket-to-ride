@@ -41,6 +41,11 @@ public static partial class GameEngine
 
     public static TrainColor DrawTrainCardForCurrentPlayer(GameState state, Random rng)
     {
+        if (state.HasDrawnTicketsThisTurn)
+        {
+            throw new InvalidOperationException("Cannot draw train cards after drawing destination tickets");
+        }
+
         state.TrainCardDrawsThisTurn++;
         return DrawTrainCardForPlayer(state, state.CurrentPlayer, rng);
     }
@@ -73,7 +78,12 @@ public static partial class GameEngine
         Random rng
     )
     {
-        if (!state.FaceUpTrainCards.Remove(color))
+        if (state.HasDrawnTicketsThisTurn)
+        {
+            throw new InvalidOperationException("Cannot draw train cards after drawing destination tickets");
+        }
+
+        if (!state.FaceUpTrainCards.Contains(color))
         {
             throw new ArgumentException($"Color {color} is not currently face-up", nameof(color));
         }
@@ -91,8 +101,9 @@ public static partial class GameEngine
             );
         }
 
+        state.FaceUpTrainCards.Remove(color);
         state.CurrentPlayer.TrainCards[color]++;
-        state.TrainCardDrawsThisTurn = state.TrainCardDrawsThisTurn + drawnCards;
+        state.TrainCardDrawsThisTurn =state.TrainCardDrawsThisTurn + drawnCards;
         AddFaceUpTrainCard(state, rng);
         return color;
     }
