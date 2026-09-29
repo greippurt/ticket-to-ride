@@ -30,7 +30,7 @@ interface GameConnectionContextValue {
   switchPlayer: (playerId: string) => Promise<GameStateDto>
   drawTrainCardFromDeck: () => Promise<void>
   drawFaceUpTrainCard: (color: TrainColor) => Promise<void>
-  claimRoute: (routeId: string, color: TrainColor) => Promise<void>
+  claimRoute: (routeId: string, color: TrainColor, locomotives?: number) => Promise<void>
   drawDestinationTickets: () => Promise<DestinationTicketDto[]>
   chooseDestinationTickets: (ticketIds: string[]) => Promise<void>
 }
@@ -124,7 +124,8 @@ export function GameConnectionProvider({ children }: { children: ReactNode }) {
     [invoke],
   )
   const claimRoute = useCallback(
-    (routeId: string, color: TrainColor) => invoke<void>('ClaimRoute', routeId, color),
+    (routeId: string, color: TrainColor, locomotives = 0) =>
+      invoke<void>('ClaimRoute', routeId, color, locomotives),
     [invoke],
   )
   const drawDestinationTickets = useCallback(

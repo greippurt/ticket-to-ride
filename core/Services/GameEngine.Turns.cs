@@ -28,11 +28,8 @@ public static partial class GameEngine
         if (!state.IsRoundComplete)
             return;
 
-        if (
-            state.IsLastRound
-            && state.CurrentPlayerIndex
-                == (state.LastRoundPlayerIndex - 1 + state.Players.Count) % state.Players.Count
-        )
+        // The player who triggered the last round also gets one final turn
+        if (state.CurrentPlayerIndex == state.LastRoundPlayerIndex)
         {
             state.IsGameOver = true;
             ScoreGame(state, allRoutes);
